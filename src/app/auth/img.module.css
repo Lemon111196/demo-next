@@ -1,0 +1,14 @@
+.img {
+    background-image: url('/bg.png');
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+/* .container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+} */
