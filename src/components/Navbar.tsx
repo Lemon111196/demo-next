@@ -13,6 +13,17 @@ function Navbar() {
         router.push('/auth/login')
     }
 
+    //!Navigation
+    const gotoDashboard = () => {
+        router.push('/dashboard')
+    }
+    const gotoNote = () => {
+        router.push('/dashboard/note')
+    }
+    const gotoLinkcard = () => {
+        router.push('dashboard/linkcard')
+    }
+
     //!Show profile
     const showProfile = () => {
         setProfile(!profile)
@@ -33,9 +44,9 @@ function Navbar() {
                         height={30}></Image>
                     {/* <p>12</p> */}
                     <ul className="list-item">
-                        <li>Dashboard</li>
-                        <li>Note App</li>
-                        <li>Linkcard</li>
+                        <li onClick={gotoDashboard}>Dashboard</li>
+                        <li onClick={gotoNote}>Note App</li>
+                        <li onClick={gotoLinkcard}>Linkcard</li>
                     </ul>
                 </div>
                 <div className="avatar">

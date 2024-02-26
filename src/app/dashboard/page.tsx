@@ -4,8 +4,10 @@ import { DashboardContainer } from './style'
 import moment from 'moment';
 import Image from 'next/image';
 import { Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 function Dashboard() {
+  const router = useRouter();
     const getFormatDateTime = () =>
     moment(new Date()).format('llll');
   const [calendar, setCalendar] = useState(getFormatDateTime());
@@ -15,6 +17,21 @@ function Dashboard() {
     }, 1000);
     return () => clearInterval(intervalID);
   })
+
+  //!Go to noteapp
+  const gotoNoteapp = () => {
+    router.push('/dashboard/noteapp');
+  }
+
+  //!Go to linkcard
+  const gotoLinkcard = () => {
+    router.push('/dashboard/linkcard');
+  }
+
+  //!Go to uranai 
+  const gotoUranai = () => {
+    router.push('/dashboard/uranai');
+  }
   return (
     <DashboardContainer>
       <div className="header">
@@ -33,6 +50,7 @@ function Dashboard() {
             className="btn"
             variant="outlined"
             color="secondary"
+            onClick={gotoNoteapp}
           >Take a new note</Button>
         </div>
         <div className="linkcard">
@@ -46,6 +64,7 @@ function Dashboard() {
             className="btn"
             variant="outlined"
             color="secondary"
+            onClick={gotoLinkcard}
           >Take a new linkcard</Button>
         </div>
         <div className="uranai">
@@ -59,7 +78,8 @@ function Dashboard() {
             className="btn"
             variant="outlined"
             color="secondary"
-          >占う</Button>
+            onClick={gotoUranai}
+          >占い</Button>
         </div>
       </div>
     </DashboardContainer>

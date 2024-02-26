@@ -1,3 +1,4 @@
+'use client'
 import Footer from "@/src/components/Footer";
 import Navbar from "@/src/components/Navbar";
 
@@ -11,8 +12,9 @@ export default function MainLayout(
 ) {
     return (
         <div>
-            <Navbar></Navbar>
+            <Navbar/>
             {children}
+            <Footer/>
         </div>
     )
 }
