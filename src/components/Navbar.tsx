@@ -8,7 +8,7 @@ import Image from "next/image";
 
 function Navbar() {
     const router = useRouter();
-    const [profile, setProfile] = useState<boolean>(false);
+    const [profiles, setProfiles] = useState<boolean>(false);
     const logout = () => {
         router.push('/auth/login')
     }
@@ -18,7 +18,7 @@ function Navbar() {
         router.push('/dashboard')
     }
     const gotoNote = () => {
-        router.push('/dashboard/note')
+        router.push('/dashboard/noteapp')
     }
     const gotoLinkcard = () => {
         router.push('dashboard/linkcard')
@@ -26,10 +26,10 @@ function Navbar() {
 
     //!Show profile
     const showProfile = () => {
-        setProfile(!profile)
-        setTimeout(() => {
-            setProfile(false);
-        }, 3000)
+        setProfiles(!profiles)
+        // setTimeout(() => {
+        //     setProfile(false);
+        // }, 3000)
     }
 
     return (
@@ -56,7 +56,7 @@ function Navbar() {
                         onClick={showProfile}
                     />
                 </div>
-                {profile && (
+                {profiles && (
                     <div >
                         <ul className="list">
                             <li className="profile">Profile</li>

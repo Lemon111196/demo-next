@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/src/store/store"
 import { INote } from "@/src/store/noteStore/interface"
-import { createNote } from "@/src/store/noteStore/noteReducer"
+import { createNoteSuccess } from "@/src/store/noteStore/noteReducer"
 import { useState } from "react"
 import Dialog from "@/src/components/Dialog"
 
@@ -38,14 +38,14 @@ function NoteApp() {
 
 
   //!Create a new note
-  const createNoteCard = async (formData: INote) => {
+  const handleCreateNote = async (formData: INote) => {
     const newNote: INote = {
       title: formData.title,
       content: formData.content,
       status: formData.status,
     };
 
-    dispatch(createNote(formData));
+    dispatch(createNoteSuccess(formData));
     reset();
   }
 
@@ -118,7 +118,7 @@ function NoteApp() {
         <Button
           className="CreateBtn"
           variant="outlined"
-          onClick={handleSubmit(createNoteCard)}
+          onClick={handleSubmit(handleCreateNote)}
         >Create</Button>
       </div>
       <div className="note">
