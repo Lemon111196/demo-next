@@ -12,6 +12,7 @@ import { INote } from "@/src/store/noteStore/interface"
 import { createNoteSuccess } from "@/src/store/noteStore/noteReducer"
 import { useState } from "react"
 import Dialog from "@/src/components/Dialog"
+import styles from './styles.module.css'
 
 
 function NoteApp() {
@@ -66,45 +67,45 @@ function NoteApp() {
   })
 
   return (
-    <NoteappContainer>
-      <div className="createNote">
-        <div className="createTitle">
+    <div className={styles.noteContainer}>
+      <div className={styles.createNote}>
+        <div className={styles.createTitle}>
           <Controller
             control={control}
             name="title"
             render={({ field }) =>
               <TextField
-                className="text"
+                className={styles.text}
                 {...field}
                 label="Title"
               />}
           />
           {errors.title && (
-            <span className="error">{errors?.title?.message?.toString()}</span>
+            <span className={styles.error}>{errors?.title?.message?.toString()}</span>
           )}
         </div>
-        <div className="createContent">
+        <div className={styles.createContent}>
           <Controller
             control={control}
             name="content"
             render={({ field }) =>
               <TextField
-                className="text"
+                className={styles.text}
                 {...field}
                 label="Content"
               />}
           />
           {errors.content && (
-            <span className="error">{errors?.content?.message?.toString()}</span>
+            <span className={styles.error}>{errors?.content?.message?.toString()}</span>
           )}
         </div>
-        <div className="createStatus">
+        <div className={styles.createStatus}>
           <Controller
             control={control}
             name="status"
             render={({ field }) =>
               <TextField
-                className="select"
+                className={styles.select}
                 {...field}
                 select
                 label="Status"
@@ -116,23 +117,23 @@ function NoteApp() {
           />
         </div>
         <Button
-          className="CreateBtn"
+          className={styles.createBtn}
           variant="outlined"
           onClick={handleSubmit(handleCreateNote)}
         >Create</Button>
       </div>
-      <div className="note">
+      <div className={styles.note}>
         {notes.map((data, index) => (
-          <Card key={index} className="card" sx={{ border: `5px solid ${getStatusBorderColor(data.status)}` }}>
-            <div className="head">
+          <Card key={index} className={styles.card} sx={{ border: `5px solid ${getStatusBorderColor(data.status)}` }}>
+            <div className={styles.head}>
               <h3>{data.title}</h3>
-              <div className="icon">
-                <ModeEditOutlineIcon className="edit" onClick={() => setSelectedNote(data)} />
-                <DeleteIcon className="delete" />
+              <div className={styles.icon}>
+                <ModeEditOutlineIcon className={styles.edit} onClick={() => setSelectedNote(data)} />
+                <DeleteIcon className={styles.delete}/>
               </div>
             </div>
-            <Badge className="badge" badgeContent={`${data.status} `} color="secondary" />
-            <p className="note-content">{data.content}</p>
+            <Badge className={styles.badge} badgeContent={`${data.status} `} color="secondary" />
+            <p className={styles.noteContent}>{data.content}</p>
           </Card>
         ))}
       </div>
@@ -143,7 +144,7 @@ function NoteApp() {
         onCancel={() => setSelectedNote(null)}
 
       >
-        <div className="text-field-title">
+        <div className={styles.textfieldTitle}>
           <TextFieldStyle
             label="Title"
           >
@@ -151,7 +152,7 @@ function NoteApp() {
         </div>
 
         <TextFieldStyle
-          className="text-field-content"
+          className={styles.textfieldContent}
           label="Content"
         >
         </TextFieldStyle>
@@ -172,7 +173,7 @@ function NoteApp() {
       >
 
       </Dialog>
-    </NoteappContainer>
+    </div>
   )
 }
 
