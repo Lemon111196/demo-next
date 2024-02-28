@@ -1,6 +1,6 @@
 "use client"
 
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import styles from './style.module.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from './schema'
@@ -9,12 +9,16 @@ import Link from 'next/link'
 import { useState } from 'react'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IForm } from './interface'
+import { apiService } from '@/src/services'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 export default function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-
+  const router = useRouter();
 
 
   const formDefaultValues = {
@@ -41,8 +45,17 @@ export default function RegisterPage() {
   }
 
   //!Create a new account
-  const createAccount = () => {
-    
+  const createAccount: SubmitHandler<IForm> = async (data) => {
+    console.log(data);
+    try {
+      const response = await apiService.post(`/auth/register`, data)
+      if (response.status === 200) {  
+        toast.success('Account registered successfully');
+        router.push('/auth/login')
+      }
+    } catch (error) {
+      toast.error('Error registering account');
+    }
   }
 
   return (
@@ -117,7 +130,7 @@ export default function RegisterPage() {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={toggleBtn} edge="end">
-                        {showPassword ? <VisibilityIcon className={styles.icon}/> : <VisibilityOffIcon className={styles.icon} />}
+                        {showPassword ? <VisibilityIcon className={styles.icon} /> : <VisibilityOffIcon className={styles.icon} />}
                       </IconButton>
                     </InputAdornment>
                   ),

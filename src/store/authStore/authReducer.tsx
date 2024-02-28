@@ -1,9 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "./interface";
 
 const initialState: AuthState = {
     isAuthenticated: false,
-    user: null
+    user: null,
+    registering: false,
+    error: null,
 }
 
 const AuthReducer = createSlice({
@@ -21,6 +23,17 @@ const AuthReducer = createSlice({
         logout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
+        },
+        registerRequest: (state) => {
+            state.registering = true;
+            state.error = null;
+        },
+        registerSuccess: (state) => {
+            state.registering = false;
+        },
+        registerFailure: (state, action: PayloadAction<string>) => {
+            state.registering = false;
+            state.error = action.payload;
         },
     }
 })
