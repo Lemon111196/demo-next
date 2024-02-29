@@ -1,13 +1,13 @@
-import { all } from 'redux-saga/effects';
-import { watchCreateNote, watchGetNoteList, watchEditNote, watchDeleteNote } from './noteStore/noteSaga';
+// import { all } from 'redux-saga/effects';
+// import { watchCreateNote, watchGetNoteList, watchEditNote, watchDeleteNote } from './noteStore/noteSaga';
 
-function* rootSaga() {
-    yield all([
-        watchCreateNote(),
-        watchGetNoteList(),
-        watchEditNote(),
-        watchDeleteNote(),
-    ]);
-}
+// function* rootSaga() {
+//     yield all([
+//         watchCreateNote(),
+//         watchGetNoteList(),
+//         watchEditNote(),
+//         watchDeleteNote(),
+//     ]);
+// }
 
-export default rootSaga;
+// export default rootSaga;
