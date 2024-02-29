@@ -4,7 +4,7 @@ import { AuthState } from "./interface";
 const initialState: AuthState = {
     isAuthenticated: false,
     user: null,
-    registering: false,
+    register: false,
     error: null,
 }
 
@@ -24,10 +24,10 @@ const AuthReducer = createSlice({
             state.isAuthenticated = false;
             state.user = null;
         },
-        setRegistering: (state, action: PayloadAction<boolean>) => {
-            state.registering = action.payload;
+        setRegister: (state, action: PayloadAction<boolean>) => {
+            state.register = action.payload;
         },
-        setRegistrationError: (state, action: PayloadAction<string | null>) => {
+        setRegisterError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     }

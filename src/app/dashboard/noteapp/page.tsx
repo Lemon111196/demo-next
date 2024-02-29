@@ -47,19 +47,32 @@ function NoteApp() {
 
   //!Create a new note
   const handleCreateNote = async (data: INote) => {
+    try {
+      const response = await apiService.post(`/note/create`, data)
+      // localStorage.setItem('accessToken', response.data.accessToken)
+      if (response.status === 200) {
+        dispatch(createNoteSuccess(data));
+        toast.success("Created successfully")
+      }
 
-    dispatch(createNoteSuccess(data));
-    toast.success('Creating note...');
-    reset();
+      toast.success('Successfully created');
+      reset();
+    } catch (error) {
+      toast.error('Failed to create')
+    }
   };
-
 
   //!Update a note
   const handleUpdateNote = async (data: INote) => {
     if (selectedNote) {
-      dispatch(editNoteSuccess({ id: selectedNote.id, updatedNote: data }));
-      toast.success('Updating note...');
-      setSelectedNote(null);
+      try {
+        await apiService.put(`/note/update/${selectedNote.id}`, data);
+        dispatch(editNoteSuccess({ id: selectedNote.id, updatedNote: data }));
+        toast.success('Successfully updated');
+        setSelectedNote(null);
+      } catch (error) {
+        toast.error('Failed to update note');
+      }
     }
   };
 
@@ -75,7 +88,7 @@ function NoteApp() {
       try {
         await apiService.delete(`/note/delete/${selectedNote.id}`);
         dispatch(deleteNoteSuccess(selectedNote.id));
-        toast.success('Deleting note...');
+        toast.success('Succe');
         setSelectedNote(null);
         setDeleteNoteModal(false);
       } catch (error) {

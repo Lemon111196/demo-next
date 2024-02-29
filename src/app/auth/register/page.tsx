@@ -50,7 +50,7 @@ export default function RegisterPage() {
   const createAccount: SubmitHandler<IForm> = async (data) => {
     console.log(data);
     try {
-      dispatch(AuthActions.setRegistering(true));
+      dispatch(AuthActions.setRegister(true));
       const response = await apiService.post(`/auth/register`, data)
       if (response.status === 200) {
         toast.success('Account registered successfully');

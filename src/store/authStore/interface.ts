@@ -1,6 +1,6 @@
 export interface AuthState {
     isAuthenticated: boolean;
     user: null,
-    registering: boolean;
+    register: boolean;
     error: string | null;
 }
