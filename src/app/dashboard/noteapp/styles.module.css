@@ -7,6 +7,7 @@
 .createNote {
     border: 1px solid #778899;
     border-top: none;
+    border-bottom: none;
     height: 100vh;
     margin-right: 30px;
     padding: 10px;
@@ -24,8 +25,8 @@
     margin-top: 20px;
 }
 
-.CreateBtn {
-    margin-left: 15px;
+.createBtn {
+    margin-left: 16px;
     margin-top: 20px;
 }
 

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 function Dashboard() {
   const router = useRouter();
-    const getFormatDateTime = () =>
+  const getFormatDateTime = () =>
     moment(new Date()).format('llll');
   const [calendar, setCalendar] = useState(getFormatDateTime());
   useEffect(() => {

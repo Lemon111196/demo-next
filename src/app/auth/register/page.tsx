@@ -12,10 +12,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IForm } from './interface'
 import { apiService } from '@/src/services'
 import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
+import { AuthActions } from '@/src/store/authStore/authReducer'
+import { useRouter } from 'next/navigation'
 
 export default function RegisterPage() {
-
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const router = useRouter();
@@ -48,8 +50,9 @@ export default function RegisterPage() {
   const createAccount: SubmitHandler<IForm> = async (data) => {
     console.log(data);
     try {
+      dispatch(AuthActions.setRegistering(true));
       const response = await apiService.post(`/auth/register`, data)
-      if (response.status === 200) {  
+      if (response.status === 200) {
         toast.success('Account registered successfully');
         router.push('/auth/login')
       }

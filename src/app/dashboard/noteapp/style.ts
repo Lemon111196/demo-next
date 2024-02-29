@@ -23,7 +23,7 @@ export const NoteappContainer = styled.div`
         font-weight: bold;
         margin-top: 20px;
     }
-    .CreateBtn{
+    .createBtn{
         margin-left: 15px;
         margin-top: 20px;
     }
@@ -80,8 +80,10 @@ export const NoteappContainer = styled.div`
 `;
 export const TextFieldStyle = styled(TextField)`
     width: 460px;
-    margin: 10px;
     .text-field-title{
+        margin-bottom: 10px;
+    }
+    .text-field-content{
         margin-bottom: 10px;
     }
 

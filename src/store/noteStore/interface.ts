@@ -1,4 +1,5 @@
 export interface INote {
+    id: string;
     title: string,
     content: string,
     status: any,
@@ -6,5 +7,5 @@ export interface INote {
 export interface IForm {
     loading: boolean,
     notes: INote[]
-    error: null,
+    error: null | string,
 }

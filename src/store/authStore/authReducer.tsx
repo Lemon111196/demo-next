@@ -24,15 +24,10 @@ const AuthReducer = createSlice({
             state.isAuthenticated = false;
             state.user = null;
         },
-        registerRequest: (state) => {
-            state.registering = true;
-            state.error = null;
+        setRegistering: (state, action: PayloadAction<boolean>) => {
+            state.registering = action.payload;
         },
-        registerSuccess: (state) => {
-            state.registering = false;
-        },
-        registerFailure: (state, action: PayloadAction<string>) => {
-            state.registering = false;
+        setRegistrationError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     }
