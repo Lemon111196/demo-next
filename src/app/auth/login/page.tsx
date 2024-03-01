@@ -44,11 +44,11 @@ export default function LoginPage() {
       console.log(response);
       if (response.status === 200) {
         toast.success('Account logging in successfully');
-        // console.log(toast);
+        localStorage.setItem('accessToken', response.data.accessToken);
         dispatch(AuthActions.loginSuccess(response.data.accessToken));
         setTimeout(() => {
           setLoading(false);
-          // router.push('/dashboard');
+          router.push('/dashboard');
         }, 3000)
 
       } else {

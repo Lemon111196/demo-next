@@ -9,13 +9,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/src/store/store"
 import { INote } from "@/src/store/noteStore/interface"
-import { createNoteRequest, createNoteSuccess, deleteNoteRequest, deleteNoteSuccess, editNoteRequest, editNoteSuccess, getNoteListRequest, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
+import { createNoteSuccess, deleteNoteRequest, deleteNoteSuccess, editNoteRequest, editNoteSuccess, getNoteListRequest, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
 import { useEffect, useState } from "react"
 import Dialog from "@/src/components/Dialog"
-// import styles from './styles.module.css'
 import { toast } from "react-toastify"
 import { apiService } from "@/src/services"
-// import { apiService } from "@/src/services"
+
 
 
 function NoteApp() {
@@ -24,6 +23,7 @@ function NoteApp() {
   const notes = useSelector((state: RootState) => state.note.notes);
   const [selectedNote, setSelectedNote] = useState<INote | null>(null);
   const [deleteNoteModal, setDeleteNoteModal] = useState<boolean>(false);
+  const [updateModal, setUpdateModal] = useState<boolean>(false);
 
 
   const getStatusBorderColor = (status: any) => {
@@ -40,17 +40,28 @@ function NoteApp() {
   }
 
   //! Get note list
+
+  const getNoteList = async () => {
+    try {
+      const response = await apiService.get('note/list');
+      if (response.status === 200) {
+        dispatch(getNoteListRequest(response.data.notes));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    dispatch(getNoteListRequest());
-  }, [dispatch]);
+    getNoteList()
+  }, []);
 
 
   //!Create a new note
   const handleCreateNote = async (data: INote) => {
     try {
       const response = await apiService.post(`/note/create`, data)
-      // localStorage.setItem('accessToken', response.data.accessToken)
-      if (response.status === 200) {
+      if (response.status === 201) {
         dispatch(createNoteSuccess(data));
         toast.success("Created successfully")
       }
@@ -61,19 +72,28 @@ function NoteApp() {
     }
   };
 
-  //!Update a note
-  const handleUpdateNote = async (data: INote) => {
-    if (selectedNote) {
-      try {
-        await apiService.put(`/note/update/${selectedNote.id}`, data);
-        dispatch(editNoteSuccess({ id: selectedNote.id, updatedNote: data }));
-        toast.success('Successfully updated');
-        setSelectedNote(null);
-      } catch (error) {
-        toast.error('Failed to update note');
+  // //! Get note details
+  const getNoteDetail = async (id: INote) => {
+    console.log(id);
+    try {
+      const response = await apiService.get(`/note/detail/${id}`)
+      if (response.status === 200) {
+        const noteDetail = response.data;
+        console.log(noteDetail);
       }
+    } catch (error) {
+      console.error('Failed to get note detail', error);
     }
   };
+
+  //!Update a note
+  const openUpdateModal = (data: INote) => {
+    setUpdateModal(true);
+    getNoteDetail(data)
+    console.log(data.id);
+
+  }
+
 
   //!Delete a note 
   const handleDeleteNote = () => {
@@ -87,7 +107,7 @@ function NoteApp() {
       try {
         await apiService.delete(`/note/delete/${selectedNote.id}`);
         dispatch(deleteNoteSuccess(selectedNote.id));
-        toast.success('Succe');
+        toast.success('Successfully deleted');
         setSelectedNote(null);
         setDeleteNoteModal(false);
       } catch (error) {
@@ -174,7 +194,7 @@ function NoteApp() {
             <div className="head">
               <h3>{data.title}</h3>
               <div className="icon">
-                <ModeEditOutlineIcon className="edit" onClick={() => setSelectedNote(data)} />
+                <ModeEditOutlineIcon className="edit" onClick={() => openUpdateModal(data)} />
                 <DeleteIcon onClick={handleDeleteNote} className="delete" />
               </div>
             </div>
@@ -184,10 +204,10 @@ function NoteApp() {
         ))}
       </div>
       <Dialog
-        open={!!selectedNote}
+        open={updateModal}
         title="Update Note"
         submitBtn="Update"
-        onCancel={() => setSelectedNote(null)}
+        onCancel={() => setUpdateModal(false)}
         onSubmit={() => { handleUpdateNote }}
       >
         <div className="text-field-title">

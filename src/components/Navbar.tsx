@@ -4,14 +4,18 @@ import { NavbarContainer } from "./styles"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from './style.module.css'
+
 
 
 function Navbar() {
     const router = useRouter();
     const [profiles, setProfiles] = useState<boolean>(false);
+
+    //! Log out
     const logout = () => {
         router.push('/auth/login')
+        localStorage.removeItem('accessToken')
+
     }
 
     //!Navigation
@@ -28,10 +32,11 @@ function Navbar() {
     //!Show profile
     const showProfile = () => {
         setProfiles(!profiles)
-        // setTimeout(() => {
-        //     setProfile(false);
-        // }, 3000)
+        setTimeout(() => {
+            setProfiles(false);
+        }, 3000)
     }
+
 
     return (
         <NavbarContainer>
@@ -58,7 +63,7 @@ function Navbar() {
                     />
                 </div>
                 {profiles && (
-                    <div >
+                    <div className="list-container">
                         <ul className="list">
                             <li className="profile">Profile</li>
                             <li onClick={logout} className="profile">Log out</li>

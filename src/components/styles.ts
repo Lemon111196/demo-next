@@ -24,15 +24,24 @@ export const NavbarContainer = styled.div`
     .img{
         margin-right: 20px;
     }
+    .list-container{
+        position: fixed ;
+    }
     .list{
+        width: 100px;
         list-style: none;
         background-color: #D7E7A9;
         color: grey;
-        width: 10%;
         padding: 10px;
         text-align: center;
-        position: absolute;
+        position: fixed;
         top: 55px;
-        right: 20px;
+        right: 5px;
     }
+    .profile{
+    cursor: pointer;
+}
+    .profile:hover{
+    background-color:#B5DDD1;
+}
 `;

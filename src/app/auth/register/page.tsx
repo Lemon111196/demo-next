@@ -30,6 +30,7 @@ export default function RegisterPage() {
   }
   const {
     handleSubmit,
+    reset,
     control,
     formState: { errors },
   } = useForm<any>({
@@ -56,9 +57,10 @@ export default function RegisterPage() {
         router.push('/auth/login');
       }
     } catch (error) {
-      dispatch(AuthActions.setRegisterError('Registration failed'));
       toast.error('Error registering account');
     }
+
+    reset()
   }
 
   return (
