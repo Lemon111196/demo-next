@@ -1,5 +1,4 @@
 "use client"
-
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import styles from './style.module.css'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -48,15 +47,16 @@ export default function RegisterPage() {
 
   //!Create a new account
   const createAccount: SubmitHandler<IForm> = async (data) => {
-    console.log(data);
     try {
-      dispatch(AuthActions.setRegister(true));
-      const response = await apiService.post(`/auth/register`, data)
+      const response = await apiService.post(`/auth/register`, data);
+      console.log(response);
       if (response.status === 200) {
+        dispatch(AuthActions.setRegister(data));
         toast.success('Account registered successfully');
-        router.push('/auth/login')
+        router.push('/auth/login');
       }
     } catch (error) {
+      dispatch(AuthActions.setRegisterError('Registration failed'));
       toast.error('Error registering account');
     }
   }

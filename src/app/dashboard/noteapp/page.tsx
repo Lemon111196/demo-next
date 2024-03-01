@@ -54,7 +54,6 @@ function NoteApp() {
         dispatch(createNoteSuccess(data));
         toast.success("Created successfully")
       }
-
       toast.success('Successfully created');
       reset();
     } catch (error) {

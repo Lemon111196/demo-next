@@ -48,7 +48,7 @@ export default function LoginPage() {
         dispatch(AuthActions.loginSuccess(response.data.accessToken));
         setTimeout(() => {
           setLoading(false);
-          router.push('/dashboard');
+          // router.push('/dashboard');
         }, 3000)
 
       } else {
