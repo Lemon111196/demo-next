@@ -16,10 +16,6 @@ const AuthReducer = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload;
         },
-        loginFailure: (state) => {
-            state.isAuthenticated = false;
-            state.user = null;
-        },
         logout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
@@ -28,11 +24,6 @@ const AuthReducer = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload;
             state.error = null;
-        },
-        setRegisterError: (state, action: PayloadAction<string | null>) => {
-            state.isAuthenticated = false;
-            state.user = null;
-            state.error = action.payload;
         },
     }
 })

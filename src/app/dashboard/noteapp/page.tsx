@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/src/store/store"
 import { INote } from "@/src/store/noteStore/interface"
-import { createNoteSuccess, deleteNoteRequest, deleteNoteSuccess, editNoteRequest, editNoteSuccess, getNoteListRequest, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
+import { createNoteSuccess, deleteNoteSuccess, editNoteSuccess, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
 import { useEffect, useState } from "react"
 import Dialog from "@/src/components/Dialog"
 import { toast } from "react-toastify"
@@ -44,8 +44,9 @@ function NoteApp() {
   const getNoteList = async () => {
     try {
       const response = await apiService.get('note/list');
+      console.log(response);
       if (response.status === 200) {
-        dispatch(getNoteListRequest(response.data.notes));
+        dispatch(getNoteListSuccess(response.data.notes));
       }
     } catch (error) {
       console.log(error);
@@ -54,7 +55,8 @@ function NoteApp() {
 
   useEffect(() => {
     getNoteList()
-  }, []);
+  }, [dispatch]);
+
 
 
   //!Create a new note
@@ -73,11 +75,13 @@ function NoteApp() {
   };
 
   // //! Get note details
+
   const getNoteDetail = async (id: INote) => {
     console.log(id);
     try {
       const response = await apiService.get(`/note/detail/${id}`)
       if (response.status === 200) {
+
         const noteDetail = response.data;
         console.log(noteDetail);
       }
@@ -91,28 +95,26 @@ function NoteApp() {
     setUpdateModal(true);
     getNoteDetail(data)
     console.log(data.id);
+  }
+
+  const handleUpdateNote = () => {
 
   }
 
-
   //!Delete a note 
   const handleDeleteNote = () => {
-    if (selectedNote) {
-      setDeleteNoteModal(true);
-    }
+    setDeleteNoteModal(true);
   };
 
-  const confirmDeleteNote = async () => {
-    if (selectedNote) {
-      try {
-        await apiService.delete(`/note/delete/${selectedNote.id}`);
-        dispatch(deleteNoteSuccess(selectedNote.id));
-        toast.success('Successfully deleted');
-        setSelectedNote(null);
-        setDeleteNoteModal(false);
-      } catch (error) {
-        toast.error('Failed to delete note');
-      }
+  const confirmDeleteNote = async (id: string) => {
+    try {
+      await apiService.delete(`/note/delete/${id}`);
+      dispatch(deleteNoteSuccess(id));
+      toast.success('Successfully deleted');
+      setSelectedNote(null);
+      setDeleteNoteModal(false);
+    } catch (error) {
+      toast.error('Failed to delete note');
     }
   };
 
@@ -195,7 +197,7 @@ function NoteApp() {
               <h3>{data.title}</h3>
               <div className="icon">
                 <ModeEditOutlineIcon className="edit" onClick={() => openUpdateModal(data)} />
-                <DeleteIcon onClick={handleDeleteNote} className="delete" />
+                <DeleteIcon onClick={() => handleDeleteNote(data.id)} className="delete" />
               </div>
             </div>
             <Badge className="badge" badgeContent={`${data.status} `} color="secondary" />
