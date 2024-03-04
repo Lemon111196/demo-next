@@ -1,10 +1,10 @@
-// import { NextResponse } from "next/server";
+import { NextResponse } from "next/dist/server/web/spec-extension/response";
 
-// export default function middleware(req: any) {
-//  let verify = req.cookies.get("loggedin");
-//  let url = req.url
+export default function middleware(req: any){
+    let verify = req.token.get('accessToken')
+    let url = req.url
 
-//  if(!verify && url.includes('/dashboard')){
-//     return NextResponse.redirect("http://localhost:3000/")
-//  }
-// }
+    if(!verify && url.includes('/dashboard')){
+        return NextResponse.redirect("http://localhost:3000/auth/login")
+    }
+}

@@ -4,7 +4,7 @@ import { IForm, INote } from "./interface";
 const initialState: IForm = {
     loading: false,
     notes: [],
-    error: null ,
+    error: null,
 }
 
 const noteReducer = createSlice({
@@ -29,8 +29,7 @@ const noteReducer = createSlice({
         },
         deleteNoteSuccess: (state, action: PayloadAction<string>) => {
             state.loading = false;
-            const noteIdToDelete = action.payload;
-            state.notes = state.notes.filter((note) => note.id !== noteIdToDelete);
+            state.notes = state.notes.filter(note => note.id !== action.payload);
         },
         resetNote: () => initialState,
     }

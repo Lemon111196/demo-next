@@ -21,9 +21,9 @@ function NoteApp() {
 
   const dispatch = useDispatch();
   const notes = useSelector((state: RootState) => state.note.notes);
-  const [selectedNote, setSelectedNote] = useState<INote | null>(null);
   const [deleteNoteModal, setDeleteNoteModal] = useState<boolean>(false);
   const [updateModal, setUpdateModal] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<INote | null>();
 
 
   const getStatusBorderColor = (status: any) => {
@@ -81,8 +81,7 @@ function NoteApp() {
     try {
       const response = await apiService.get(`/note/detail/${id}`)
       if (response.status === 200) {
-
-        const noteDetail = response.data;
+        const noteDetail = response.data.note;
         console.log(noteDetail);
       }
     } catch (error) {
@@ -96,28 +95,31 @@ function NoteApp() {
     getNoteDetail(data)
     console.log(data.id);
   }
-
   const handleUpdateNote = () => {
 
   }
 
   //!Delete a note 
-  const handleDeleteNote = () => {
+  const handleDeleteNote = (id: string) => {
     setDeleteNoteModal(true);
+    setSelectedItem(notes.find(note => note.id === id));
+    console.log(selectedItem);
   };
 
-  const confirmDeleteNote = async (id: string) => {
+  const confirmDeleteNote = async () => {
     try {
-      await apiService.delete(`/note/delete/${id}`);
-      dispatch(deleteNoteSuccess(id));
-      toast.success('Successfully deleted');
-      setSelectedNote(null);
-      setDeleteNoteModal(false);
+      if (selectedItem) {
+        await apiService.delete(`/note/delete/${selectedItem.id}`);
+        dispatch(deleteNoteSuccess(selectedItem.id));
+        toast.success('Successfully deleted');
+      }
     } catch (error) {
       toast.error('Failed to delete note');
+    } finally {
+      setDeleteNoteModal(false);
+      setSelectedItem(null);
     }
   };
-
 
   const formDefaultValues = {
     title: '',
