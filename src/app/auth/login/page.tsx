@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import styles from './style.module.css'
 import { IForm } from "./interface";
 import { apiService } from "@/src/services";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AuthActions } from "@/src/store/authStore/authReducer";
 

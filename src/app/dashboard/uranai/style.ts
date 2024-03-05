@@ -16,7 +16,7 @@ export const UranaiContainer = styled.div`
         margin-top: 20px;
     }
     img{
-        margin: 10px;
+        margin: 0px;
     }
     h1{
         margin-top: 20px;

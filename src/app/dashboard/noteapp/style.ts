@@ -33,7 +33,7 @@ export const NoteappContainer = styled.div`
         width: 350px;
     }
     .card{
-        width: 350px;
+        width: 280px;
         padding: 5px;
         margin-top: 20px;
         margin-right: 10px;

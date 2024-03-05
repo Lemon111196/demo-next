@@ -10,7 +10,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { IForm } from './interface'
 import { apiService } from '@/src/services'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { AuthActions } from '@/src/store/authStore/authReducer'
 import { useRouter } from 'next/navigation'

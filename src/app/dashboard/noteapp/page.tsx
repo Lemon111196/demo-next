@@ -12,8 +12,9 @@ import { INote } from "@/src/store/noteStore/interface"
 import { createNoteSuccess, deleteNoteSuccess, editNoteSuccess, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
 import { useEffect, useState } from "react"
 import Dialog from "@/src/components/Dialog"
-import { toast } from "react-toastify"
+import { toast } from "react-hot-toast"
 import { apiService } from "@/src/services"
+
 
 
 
@@ -93,7 +94,6 @@ function NoteApp() {
   const openUpdateModal = (data: INote) => {
     setUpdateModal(true);
     getNoteDetail(data)
-    console.log(data.id);
   }
   const handleUpdateNote = () => {
 
@@ -102,15 +102,16 @@ function NoteApp() {
   //!Delete a note 
   const handleDeleteNote = (id: string) => {
     setDeleteNoteModal(true);
-    setSelectedItem(notes.find(note => note.id === id));
-    console.log(selectedItem);
+    setSelectedItem(notes.find(note => note._id === id));
+    // console.log(selectedItem);
   };
 
   const confirmDeleteNote = async () => {
+    console.log(`selectedItem`, selectedItem);
     try {
       if (selectedItem) {
-        await apiService.delete(`/note/delete/${selectedItem.id}`);
-        dispatch(deleteNoteSuccess(selectedItem.id));
+        await apiService.delete(`/note/delete/${selectedItem._id}`);
+        dispatch(deleteNoteSuccess(selectedItem._id));
         toast.success('Successfully deleted');
       }
     } catch (error) {
@@ -199,7 +200,7 @@ function NoteApp() {
               <h3>{data.title}</h3>
               <div className="icon">
                 <ModeEditOutlineIcon className="edit" onClick={() => openUpdateModal(data)} />
-                <DeleteIcon onClick={() => handleDeleteNote(data.id)} className="delete" />
+                <DeleteIcon onClick={() => handleDeleteNote(data._id)} className="delete" />
               </div>
             </div>
             <Badge className="badge" badgeContent={`${data.status} `} color="secondary" />

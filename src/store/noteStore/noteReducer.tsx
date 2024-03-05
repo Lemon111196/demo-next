@@ -22,14 +22,14 @@ const noteReducer = createSlice({
         editNoteSuccess: (state, action: PayloadAction<{ id: string; updatedNote: INote }>) => {
             state.loading = false;
             const { id, updatedNote } = action.payload;
-            const index = state.notes.findIndex((note) => note.id === id);
+            const index = state.notes.findIndex((note) => note._id === id);
             if (index !== -1) {
                 state.notes[index] = updatedNote;
             }
         },
         deleteNoteSuccess: (state, action: PayloadAction<string>) => {
             state.loading = false;
-            state.notes = state.notes.filter(note => note.id !== action.payload);
+            state.notes = state.notes.filter(note => note._id !== action.payload);
         },
         resetNote: () => initialState,
     }

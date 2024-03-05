@@ -80,7 +80,7 @@ import twoPen from '../../../assets/img/75.png';
 import twoSword from '../../../assets/img/76.png';
 import twoWand from '../../../assets/img/77.png';
 import type { StaticImageData } from "next/image";
-import { Button } from "@mui/material";
+import { Button, Card, CardContent, Grid } from "@mui/material";
 
 
 function Uranai() {
@@ -106,15 +106,24 @@ function Uranai() {
         <UranaiContainer>
             <div className="body">
                 <h1>What will your future be?</h1>
-                <div className='image'>
-                    {image.map((image, index) => (
-                        <img key={index} src={image.src} alt={`Random ${index + 1}`} />
-                    ))}
+                <div className="image">
+                    <Grid container spacing={2}> {/* Use MUI Grid container */}
+                        {image.map((image, index) => (
+                            <Grid item xs={4} spacing={0.5} key={index}> {/* Use MUI Grid item to control spacing */}
+                                {/* <Card> */}
+                                    {/* <CardContent> */}
+                                        <img src={image.src} alt={`Random ${index + 1}`} />
+                                    {/* </CardContent> */}
+                                {/* </Card> */}
+                            </Grid>
+                        ))}
+                    </Grid>
                     <div className="click">
-                        <Button variant="contained" onClick={handleShuffle}>Good luck!</Button>
+                        <Button variant="contained" onClick={handleShuffle}>
+                            Good luck!
+                        </Button>
                     </div>
                 </div>
-
             </div>
         </UranaiContainer>
     )
