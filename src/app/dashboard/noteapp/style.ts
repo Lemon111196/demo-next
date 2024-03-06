@@ -86,5 +86,5 @@ export const TextFieldStyle = styled(TextField)`
     .text-field-content{
         margin-bottom: 10px;
     }
-
+    
 `;

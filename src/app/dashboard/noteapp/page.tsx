@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/src/store/store"
 import { INote } from "@/src/store/noteStore/interface"
-import { createNoteSuccess, deleteNoteSuccess, editNoteSuccess, getNoteListSuccess } from "@/src/store/noteStore/noteReducer"
+import { createNoteSuccess, deleteNoteSuccess, getNoteListSuccess, updateNoteSuccess } from "@/src/store/noteStore/noteReducer"
 import { useEffect, useState } from "react"
 import Dialog from "@/src/components/Dialog"
 import { toast } from "react-hot-toast"
@@ -77,13 +77,12 @@ function NoteApp() {
 
   // //! Get note details
 
-  const getNoteDetail = async (id: INote) => {
-    console.log(id);
+  const getNoteDetail = async (id: string) => {
     try {
       const response = await apiService.get(`/note/detail/${id}`)
       if (response.status === 200) {
         const noteDetail = response.data.note;
-        console.log(noteDetail);
+        return noteDetail;
       }
     } catch (error) {
       console.error('Failed to get note detail', error);
@@ -93,10 +92,24 @@ function NoteApp() {
   //!Update a note
   const openUpdateModal = (data: INote) => {
     setUpdateModal(true);
-    getNoteDetail(data)
+    setValueUpdate("id", data._id);
+    setValueUpdate("title", data.title);
+    setValueUpdate("content", data.content);
+    setValueUpdate("status", data.status);
   }
-  const handleUpdateNote = () => {
-
+  const handleUpdateNote = async (data: any) => {
+    try {
+      if (selectedItem) {
+        console.log('selectedItem', selectedItem);
+        await apiService.put(`/note/update/${selectedItem._id}`)
+        dispatch(updateNoteSuccess(data))
+      }
+    } catch (error) {
+      console.log(error);
+    } finally{
+      setUpdateModal(false);
+      setSelectedItem(null);
+    }
   }
 
   //!Delete a note 
@@ -136,6 +149,19 @@ function NoteApp() {
     resolver: yupResolver(schema),
     defaultValues: formDefaultValues
   })
+
+  const {
+    handleSubmit: handleSubmitUpdate,
+    control: controlUpdate,
+    reset: resetUpdate,
+    setValue: setValueUpdate,
+    formState: { errors: errorsUpdate },
+    watch: watchUpdate,
+  } = useForm<any>({
+    resolver: yupResolver(schema),
+    defaultValues: formDefaultValues,
+  })
+
 
   return (
     <NoteappContainer>
@@ -213,28 +239,46 @@ function NoteApp() {
         title="Update Note"
         submitBtn="Update"
         onCancel={() => setUpdateModal(false)}
-        onSubmit={() => { handleUpdateNote }}
+        onSubmit={() => { handleSubmitUpdate(handleUpdateNote) }}
       >
         <div className="text-field-title">
-          <TextFieldStyle
-            label="Title"
-          >
-          </TextFieldStyle>
+          <Controller
+            control={controlUpdate}
+            name="title"
+            render={({ field }) =>
+              <TextFieldStyle
+                className="text"
+                {...field}
+                label="Title"
+              />}
+          />
         </div>
 
-        <TextFieldStyle
-          className="text-field-content"
-          label="Content"
-        >
-        </TextFieldStyle>
-        <TextFieldStyle
-          label="Status"
-          select
-        >
-          <MenuItem value="NORMAL">Normal</MenuItem>
-          <MenuItem value="IMPORTANT">Important</MenuItem>
-          <MenuItem value="HIGHLIGHT">Highlight</MenuItem>
-        </TextFieldStyle>
+        <Controller
+          control={controlUpdate}
+          name="content"
+          render={({ field }) =>
+            <TextFieldStyle
+              className="text-field-content"
+              {...field}
+              label="Content"
+            />}
+        />
+        <Controller
+          control={controlUpdate}
+          name="status"
+          render={({ field }) =>
+            <TextFieldStyle
+              label="Status"
+              {...field}
+              select
+            >
+              <MenuItem value="NORMAL">Normal</MenuItem>
+              <MenuItem value="IMPORTANT">Important</MenuItem>
+              <MenuItem value="HIGHLIGHT">Highlight</MenuItem>
+            </TextFieldStyle>
+          }
+        />
       </Dialog>
       <Dialog
         open={deleteNoteModal}

@@ -2,7 +2,7 @@ export interface INote {
     _id: string;
     title: string,
     content: string,
-    status: any,
+    status: string,
 }
 export interface IForm {
     loading: boolean,
